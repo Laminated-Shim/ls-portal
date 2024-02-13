@@ -1,0 +1,99 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./backend/compose/Dockerfile
+    container_name: api
+    volumes:
+      - ./backend/:/code/app
+    environment:
+      - TZ=America/Los_Angeles
+    networks:
+      - traefik-public
+    labels:
+      traefik.docker.network: traefik-public
+      traefik.enable: "true"
+      traefik.http.routers.api-http.entrypoints: http
+      traefik.http.routers.api-http.middlewares: https-redirect
+      traefik.http.routers.api-http.rule: Host(`lsp.api.local`)
+      traefik.http.routers.api-http.service: api
+      traefik.http.routers.api-https.entrypoints: https
+      traefik.http.routers.api-https.rule: Host(`lsp.api.local`)
+      traefik.http.routers.api-https.service: api
+      traefik.http.routers.api-https.tls: "true"
+      traefik.http.routers.api-https.tls.certresolver: le
+      traefik.http.services.api.loadbalancer.server.port: "8000"
+    
+  db:
+    image: mongo:latest
+    container_name: db
+    restart: unless-stopped
+    volumes:
+      - ./backend/compose/database/mongodb:/data/db
+    environment:
+      - TZ=America/Los_Angeles
+    networks:
+      - traefik-public
+    labels:
+      traefik.http.services.mongo.loadbalancer.server.port: "27017"
+
+  dbgate:
+    image: dbgate/dbgate
+    container_name: dbgate
+    restart: unless-stopped
+    volumes:
+      - ./backend/compose/database/dbgate:/root/.dbgate
+    env_file:
+      - ./backend/compose/database/dbgate/dbgate.env
+    networks:
+      - traefik-public
+    labels:
+      traefik.docker.network: traefik-public
+      traefik.enable: "true"
+      traefik.http.routers.dbgate-http.entrypoints: http
+      traefik.http.routers.dbgate-http.middlewares: https-redirect
+      traefik.http.routers.dbgate-http.rule: Host(`lsp.dbgate.local`)
+      traefik.http.routers.dbgate-http.service: dbgate
+      traefik.http.routers.dbgate-https.entrypoints: https
+      traefik.http.routers.dbgate-https.rule: Host(`lsp.dbgate.local`)
+      traefik.http.routers.dbgate-https.service: dbgate
+      traefik.http.routers.dbgate-https.tls: "true"
+      traefik.http.routers.dbgate-https.tls.certresolver: le
+      traefik.http.services.dbgate.loadbalancer.server.port: "3000"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./frontend/compose/Dockerfile
+    container_name: react
+    volumes:
+      - ./frontend:/app
+    environment:
+      - TZ=America/Los_Angeles
+    networks:
+      - traefik-public
+    labels:
+      traefik.docker.network: traefik-public
+      traefik.enable: "true"
+      traefik.http.routers.react-http.entrypoints: http
+      # traefik.http.routers.react-http.middlewares: https-redirect
+      traefik.http.routers.react-http.rule: Host(`lsp.web.local`)
+      traefik.http.routers.react-http.service: react
+      # traefik.http.routers.react-https.entrypoints: https
+      # traefik.http.routers.react-https.rule: Host(`frontend.react.web`)
+      # traefik.http.routers.react-https.service: react
+      # traefik.http.routers.react-https.tls: "true"
+      # traefik.http.routers.react-https.tls.certresolver: le
+      traefik.http.services.react.loadbalancer.server.port: "5173"
+
+volumes:
+  mongodb:
+  dbgate:
+    driver: local
+
+networks:
+  traefik-public:
+    name: traefik-public
+    external: true
