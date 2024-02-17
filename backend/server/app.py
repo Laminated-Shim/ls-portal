@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 from .database import init_db
 from .routes.product_review import router as Router
+from .routes.job_listing import router as ol_Router
 
 app = FastAPI(
     title="Logic Automation LLC",
@@ -19,11 +20,14 @@ app = FastAPI(
         "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
     },
 )
+
 app.include_router(Router, tags=["Product Reviews"], prefix="/reviews")
+app.include_router(ol_Router, tags=["Orelease"], prefix="/orelease")
 
 @app.on_event("startup")
 async def start_db():
     await init_db()
+
 
 @app.get("/", tags=["Root"])
 async def read_root() -> dict:

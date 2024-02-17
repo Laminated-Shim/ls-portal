@@ -22,9 +22,10 @@ class ProductReview(Document):
                 "product": "TestDriven TDD Course",
                 "rating": 4.9,
                 "review": "Excellent course!",
-                "date": datetime.now()
+                "date": datetime.now(),
             }
         }
+
 
 class UpdateProductReview(BaseModel):
     name: Optional[str]
@@ -40,7 +41,6 @@ class UpdateProductReview(BaseModel):
                 "product": "TestDriven TDD Course",
                 "rating": 5.0,
                 "review": "Excellent course!",
-                "date": datetime.now()
+                "date": datetime.now(),
             }
         }
-

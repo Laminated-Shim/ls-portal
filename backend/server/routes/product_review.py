@@ -7,6 +7,7 @@ from server.models.product_review import ProductReview, UpdateProductReview
 
 router = APIRouter()
 
+
 @router.post("/", response_description="Review added to the database")
 async def add_product_review(review: ProductReview) -> dict:
     await review.create()
@@ -26,18 +27,15 @@ async def get_reviews() -> List[ProductReview]:
 
 
 @router.put("/{id}", response_description="Review record updated")
-async def update_review_data(id: PydanticObjectId, req: UpdateProductReview) -> ProductReview:
+async def update_review_data(
+    id: PydanticObjectId, req: UpdateProductReview
+) -> ProductReview:
     req = {k: v for k, v in req.dict().items() if v is not None}
-    update_query = {"$set": {
-        field: value for field, value in req.items()
-    }}
+    update_query = {"$set": {field: value for field, value in req.items()}}
 
     review = await ProductReview.get(id)
     if not review:
-        raise HTTPException(
-            status_code=404,
-            detail="Review record not found!"
-        )
+        raise HTTPException(status_code=404, detail="Review record not found!")
 
     await review.update(update_query)
     return review
@@ -48,16 +46,10 @@ async def delete_review_data(id: PydanticObjectId) -> dict:
     record = await ProductReview.get(id)
 
     if not record:
-        raise HTTPException(
-            status_code=404,
-            detail="Review record not found!"
-        )
+        raise HTTPException(status_code=404, detail="Review record not found!")
 
     await record.delete()
-    return {
-        "message": "Record deleted successfully"
-    }
+    return {"message": "Record deleted successfully"}
 
 
-#62839ad1d9a88a040663a734
-
+# 62839ad1d9a88a040663a734
