@@ -22,7 +22,8 @@ app = FastAPI(
 )
 
 app.include_router(Router, tags=["Product Reviews"], prefix="/reviews")
-app.include_router(ol_Router, tags=["Orelease"], prefix="/orelease")
+app.include_router(ol_Router, tags=["Job Listing"], prefix="/joblisting")
+
 
 @app.on_event("startup")
 async def start_db():

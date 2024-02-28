@@ -1,49 +1,49 @@
 from pydantic import BaseModel, Field
 from decimal import Decimal
+from typing import List, Optional
 from datetime import datetime
-from typing import Optional
 
 
 class Orelease(BaseModel):
-    ol_order_num: str = Field(max_length=12)
-    ol_rel_date: datetime
-    ol_rel_number: Decimal
-    ol_rel_qty: Decimal
-    ol_rel_prod: Decimal
-    ol_rel_bal: Decimal
-    ol_rel_sch: Decimal
-    ol_rel_ship: Decimal
-    ol_quantity: Decimal
-    ol_priority: Decimal
-    ol_il: Decimal
-    ol_end_date: datetime
-    ol_fi: str = Field(max_length=1)
-    ol_start_date: datetime
-    ol_po_num: str = Field(max_length=25)
-    ol_sch_qty: Decimal
-    ol_sch_method: str = Field(max_length=1)
-    ol_lead_time: Decimal
-    ol_ph: str = Field(max_length=1)
-    ol_track_num: str = Field(max_length=15)
-    ol_proj_start: datetime
-    ol_rel_stat: str = Field(max_length=1)
-    ol_sched: bool = False
-    ol_comp_date: datetime
-    ol_lock: bool = False
-    ol_cont_cnt: str = Field(max_length=10)
-    ol_cont_type: str = Field(max_length=10)
-    ol_cont_desc: str = Field(max_length=20)
-    ol_cont_weight: str = Field(max_length=10)
-    ol_lot: str = Field(max_length=20)
-    ol_insp_date: datetime
-    ol_released: bool = False
-    ol_notes: str = Field(max_length=2147483647)
-    ol_fab_date: datetime
-    ol_shipby_date: datetime
-    ol_planning_date: datetime
-    ol_ordstatus: str = Field(max_length=10)
-    ol_expedite: str = Field(max_length=10)
-    ol_owner: str = Field(max_length=5)
-    ol_status1: str = Field(max_length=50)
-    ol_status2: str = Field(max_length=50)
-    ol_matverify: bool = False
+    ol_order_num: Optional[str] = Field(max_length=12, default=None)
+    ol_rel_date: Optional[datetime] = None
+    ol_rel_number: Optional[Decimal] = None
+    ol_rel_qty: Optional[Decimal] = None
+    ol_rel_prod: Optional[Decimal] = None
+    ol_rel_bal: Optional[Decimal] = None
+    ol_rel_sch: Optional[Decimal] = None
+    ol_rel_ship: Optional[Decimal] = None
+    ol_quantity: Optional[Decimal] = None
+    ol_priority: Optional[Decimal] = None
+    ol_il: Optional[Decimal] = None
+    ol_end_date: Optional[datetime] = None
+    ol_fi: Optional[str] = Field(max_length=1, default=None)
+    ol_start_date: Optional[datetime] = None
+    ol_po_num: Optional[str] = Field(max_length=25, default=None)
+    ol_sch_qty: Optional[Decimal] = None
+    ol_sch_method: Optional[str] = Field(max_length=1, default=None)
+    ol_lead_time: Optional[Decimal] = None
+    ol_ph: Optional[str] = Field(max_length=1, default=None)
+    ol_track_num: Optional[str] = Field(max_length=15, default=None)
+    ol_proj_start: Optional[datetime] = None
+    ol_rel_stat: Optional[str] = Field(max_length=1, default=None)
+    ol_sched: Optional[bool] = False
+    ol_comp_date: Optional[datetime] = None
+    ol_lock: Optional[bool] = False
+    ol_cont_cnt: Optional[str] = Field(max_length=10, default=None)
+    ol_cont_type: Optional[str] = Field(max_length=10, default=None)
+    ol_cont_desc: Optional[str] = Field(max_length=20, default=None)
+    ol_cont_weight: Optional[str] = Field(max_length=10, default=None)
+    ol_lot: Optional[str] = Field(max_length=20, default=None)
+    ol_insp_date: Optional[datetime] = None
+    ol_released: Optional[bool] = False
+    ol_notes: Optional[str] = Field(max_length=2147483647, default=None)
+    ol_fab_date: Optional[datetime] = None
+    ol_shipby_date: Optional[datetime] = None
+    ol_planning_date: Optional[datetime] = None
+    ol_ordstatus: Optional[str] = Field(max_length=10, default=None)
+    ol_expedite: Optional[str] = Field(max_length=10, default=None)
+    ol_owner: Optional[str] = Field(max_length=5, default=None)
+    ol_status1: Optional[str] = Field(max_length=50, default=None)
+    ol_status2: Optional[str] = Field(max_length=50, default=None)
+    ol_matverify: Optional[bool] = False
