@@ -1,13 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-full">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-  </head>
-  <body>
-    <div id="root"></div>
+    <title>Laminated Shim Web Portal</title>
+    <script>
+      window.codySettings = { widget_id: '9a8cc7d3-460e-4de1-95c3-8b4110015a05' };
+
+      !function () { var t = window, e = document, a = function () { var t = e.createElement("script"); t.type = "text/javascript", t.async = !0, t.src = "https://trinketsofcody.com/cody-widget.js"; var a = e.getElementsByTagName("script")[0]; a.parentNode.insertBefore(t, a) }; "complete" === document.readyState ? a() : t.attachEvent ? t.attachEvent("onload", a) : t.addEventListener("load", a, !1) }();
+    </script>
+  <body class="h-full">
+    <div class="h-full w-full" id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

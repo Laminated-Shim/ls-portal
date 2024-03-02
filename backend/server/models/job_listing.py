@@ -14,6 +14,7 @@ class JobListing(BaseModel):
         ol_shipby_date: Optional[datetime] = None
         ol_sch_qty: Optional[Decimal] = None
         ol_rel_number: Optional[Decimal] = None
+        ol_rel_stat: Optional[str] = Field(max_length=1, default=None)
 
     class Order(BaseModel):
         or_order_num: Optional[str] = Field(max_length=12, default=None)

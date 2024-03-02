@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: ./backend/compose/Dockerfile
     container_name: api
+    restart: unless-stopped
     volumes:
       - ./backend/:/code/app
     environment:
@@ -68,6 +69,7 @@ services:
       context: .
       dockerfile: ./frontend/compose/Dockerfile
     container_name: react
+    restart: unless-stopped
     volumes:
       - ./frontend:/app
     environment:

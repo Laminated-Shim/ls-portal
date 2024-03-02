@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from typing import List
 from datetime import date
 import json
@@ -16,16 +16,19 @@ url = "http://192.168.0.147:81/api/v2/VETquery"
 
 # @router.get("/orelease", response_description="get orelease")
 async def get_orelease(
-    start_date: date, end_date: date, status: str
+    start_date: date, end_date: date, status: List[str] = Query(None)
 ) -> List[JobListing.Orelease]:
     try:
-        if len(status) > 1:
-            raise HTTPException(status_code=400, detail=f"Bad status code '{status}'")
+        # if len(status) > 1:
+        #     raise HTTPException(status_code=400, detail=f"Bad status code '{status}'")
+        status_list = ",".join(
+                [f"'{_status}'" for _status in status]
+            )
 
-        sql = f"SELECT ol_order_num, ol_rel_date, ol_shipby_date, ol_sch_qty, ol_rel_number \
+        sql = f"SELECT ol_order_num, ol_rel_date, ol_shipby_date, ol_sch_qty, ol_rel_number, ol_rel_stat \
                     FROM [orelease] \
                     WHERE (orelease.ol_rel_date >= {{^{start_date}}} AND orelease.ol_rel_date <= {{^{end_date}}}) \
-                    AND (orelease.ol_rel_stat = '{status}') \
+                    AND  INLIST (orelease.ol_rel_stat, {status_list}) \
                     ORDER BY orelease.ol_rel_date;"
 
         payload = json.dumps(sql)
@@ -278,10 +281,11 @@ async def get_csr(customer_codes: List[str]) -> List:
         )  # Internal server error for other issues
 
 
+
 # https://lsp.api.local/joblisting?start_date=2023-02-28&end_date=2024-05-28&status=O
 @router.get("", response_description="Get Job Listing Data")
 async def get_job_listings(
-    start_date: date, end_date: date, status: str
+    start_date: date, end_date: date, status: List[str] = Query(None)
 ) -> List[JobListing]:
     tic = time.perf_counter()
 
